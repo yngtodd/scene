@@ -43,3 +43,4 @@ docs/_build
 
 # Word Embeddings
 word_vectors
+notebooks/.vector_cache

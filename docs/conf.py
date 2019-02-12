@@ -43,6 +43,11 @@ source_parsers = {
 
 # -- General configuration ------------------------------------------------
 
+def setup(app):
+    app.add_stylesheet('custom.css')
+    app.add_javascript("custom.js")
+    app.add_javascript("https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js")
+
 # If your documentation needs a minimal Sphinx version, state it here.
 #
 # needs_sphinx = '1.0'
@@ -53,7 +58,8 @@ source_parsers = {
 extensions = ['sphinx.ext.imgmath',
     'sphinx.ext.viewcode',
     'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon']
+    'sphinx.ext.napoleon',
+    'sphinx_copybutton']
 
 #'sphinx.ext.mathjax', ??
 

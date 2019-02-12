@@ -3,8 +3,10 @@ from torchtext.data import Field
 from torchtext.data import TabularDataset 
 
 
+spacy_en = spacy.load('en')
+
+
 def tokenizer(text):
-    spacy_en = spacy.load('en')
     return [tok.text for tok in spacy_en.tokenizer(text)]
 
 

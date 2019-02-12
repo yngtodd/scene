@@ -1,4 +1,5 @@
 import torch
+from torchtext.data import BucketIterator
 
 
 class BatchWrapper:
@@ -25,7 +26,7 @@ class BatchWrapper:
 
 class BucketLoader:
 
-    def __init__(self, train, val, batch_sizes(64,64), device='cpu'):
+    def __init__(self, train, val, batch_sizes=(64,64), device='cpu'):
         self.train = train
         self.val = val
         self.batch_sizes = batch_sizes

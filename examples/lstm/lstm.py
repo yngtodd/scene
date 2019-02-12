@@ -1,6 +1,7 @@
 import tqdm
 from parser import parse_args
 
+import torch
 import torch.nn as nn
 import torch.optim as optim
 
@@ -11,8 +12,9 @@ from scene.data.loaders import BatchWrapper, BucketLoader
 from scene.models import BiLSTM
 
 
-def train(model, loader, criterion, optimizer):
+def train(model, loader, criterion, optimizer, epoch):
     model.train()
+    iteration = 0
     running_loss = 0.0
     for data, labels in tqdm.tqdm(loader):
         optimizer.zero_grad()
@@ -21,7 +23,10 @@ def train(model, loader, criterion, optimizer):
         loss.backward()
         optimizer.step()
         running_loss += loss.data[0] * data.size(0)
-
+        iteration += 1
+        if iteration % 10 == 0:
+            print(f'Epoch: {epoch}, Loss: {running_loss/len(loader):.6}')
+        
 
 def main():
     args = parse_args()
@@ -35,12 +40,14 @@ def main():
     data.textfield.build_vocab(train, vectors='glove.6B.100d')
     vocab = data.textfield.vocab
 
-    train_iter, val_iter = BucketLoader(
+    bucket = BucketLoader(
         train, 
         val, 
         batch_sizes=(args.batch_size, args.batch_size),
         device=device
     )
+
+    train_iter, val_iter = bucket.load_iterators()
 
     test_iter = Iterator(
         test, 
@@ -61,4 +68,8 @@ def main():
 
     for epoch in range(1, args.epochs+1):
         train(model, trainloader, criterion, optimizer, epoch)
-        val(model, valloader, criterion)
+        #val(model, valloader, criterion)
+
+
+if __name__=='__main__':
+    main()

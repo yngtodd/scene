@@ -11,9 +11,8 @@
 .. image:: https://badge.fury.io/py/scene.png
     :target: http://badge.fury.io/py/scene
 
-.. image:: https://travis-ci.org/yngtodd/scene.png?branch=master
-    :target: https://travis-ci.org/yngtodd/scene
-
+.. image:: https://circleci.com/gh/yngtodd/scene.svg?style=svg
+    :target: https://circleci.com/gh/yngtodd/scene
 
 =============================
 Scene

@@ -12,7 +12,7 @@ from scene.data.loaders import BatchWrapper, BucketLoader
 from scene.models import BiLSTM
 
 
-def train(model, loader, criterion, optimizer, epoch):
+def train(model, loader, vocab, criterion, optimizer, epoch):
     model.train()
     iteration = 0
     running_loss = 0.0
@@ -67,7 +67,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     for epoch in range(1, args.epochs+1):
-        train(model, trainloader, criterion, optimizer, epoch)
+        train(model, trainloader, vocab, criterion, optimizer, epoch)
         #val(model, valloader, criterion)
 
 

@@ -23,6 +23,7 @@ def train(model, loader, vocab, criterion, optimizer, epoch):
         loss.backward()
         optimizer.step()
         running_loss += loss.data[0] * data.size(0)
+        print(f'Running loss: {running_loss}')
         iteration += 1
         if iteration % 10 == 0:
             print(f'Epoch: {epoch}, Loss: {running_loss/len(loader):.6}')

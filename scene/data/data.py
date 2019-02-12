@@ -21,6 +21,7 @@ class DataSet:
         return f'Competition dataset at {self.path}'
 
     def load_splits(self):
+        print(f'Tokenizing data...')
         train, val, test = TabularDataset.splits(
             path=self.path, 
             train='train.csv',

@@ -7,7 +7,7 @@ class DataSet:
         self.path = path
 
     def __repr__(self):
-        return f'Competition dataset at {self.pat}'
+        return f'Competition dataset at {self.path}'
 
     def load_splits(self):
         train, val, test = TabularDataset.splits(

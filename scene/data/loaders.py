@@ -8,7 +8,10 @@ class BatchWrapper:
         self.dataloader = dataloader
         self.data = data
         self.label = label
-    
+
+    def __len__(self):
+        return len(self.dataloader
+
     def __iter__(self):
         for batch in self.dataloader:
             x = getattr(batch, self.data)
@@ -20,9 +23,6 @@ class BatchWrapper:
 
             yield (x, y)
     
-    def __len__(self):
-        return len(self.dataloader)
-
 
 class BucketLoader:
 

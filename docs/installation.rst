@@ -46,6 +46,13 @@ Once you have a copy of the source, you can install it with:
 
     python setup.py install
 
+The repository uses spaCy for the tokenization of texts.
+
+.. code-block:: console
+
+    pip install -U spacy
+    python -m spacy download en
+
 
 .. _Github repo: https://github.com/yngtodd/scene
 .. _tarball: https://github.com/yngtodd/scene/tarball/master

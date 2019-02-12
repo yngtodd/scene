@@ -5,7 +5,7 @@ from torchtext.data import TabularDataset
 
 def tokenizer(text):
     spacy_en = spacy.load('en')
-    return [tok.text for tok in spacy_en.tokenizer(text)
+    return [tok.text for tok in spacy_en.tokenizer(text)]
 
 
 class DataSet:
@@ -27,9 +27,9 @@ class DataSet:
             format='csv',
             fields=[
                 ('id', None),
-                ('text', textfield),
+                ('text', self.textfield),
                 ('genre', None),
-                ('labels', labelfield)
+                ('labels', self.labelfield)
             ]
         )
         return train, val, test

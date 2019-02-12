@@ -16,8 +16,8 @@ def train(model, loader, criterion, optimizer):
     running_loss = 0.0
     for data, labels in tqdm.tqdm(loader):
         optimizer.zero_grad()
-        preds = model(data)
-        loss = loss_func(preds, labels)
+        pred = model(data)
+        loss = criterion(pred, labels)
         loss.backward()
         optimizer.step()
         running_loss += loss.data[0] * data.size(0)
@@ -59,6 +59,6 @@ def main():
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
     criterion = nn.CrossEntropyLoss()
 
-    for _ in range(1, args.epochs+1):
-        train(model, trainloader, criterion, optimizer)
+    for epoch in range(1, args.epochs+1):
+        train(model, trainloader, criterion, optimizer, epoch)
         val(model, valloader, criterion)

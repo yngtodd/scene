@@ -10,7 +10,7 @@ class BatchWrapper:
         self.label = label
 
     def __len__(self):
-        return len(self.dataloader
+        return len(self.dataloader)
 
     def __iter__(self):
         for batch in self.dataloader:

@@ -1,4 +1,3 @@
-# Code from https://github.com/salesforce/awd-lstm-lm
 import os
 import torch
 import collections

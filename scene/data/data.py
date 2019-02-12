@@ -1,10 +1,19 @@
+import spacy
+from torchtext.data import Field
 from torchtext.data import TabularDataset 
+
+
+def tokenizer(text):
+    spacy_en = spacy.load('en')
+    return [tok.text for tok in spacy_en.tokenizer(text)
 
 
 class DataSet:
 
     def __init__(self, path):
         self.path = path
+        self.textfield = Field(sequential=True, tokenize=tokenizer, lower=True)
+        self.labelfield = Field(sequential=False, use_vocab=False)
 
     def __repr__(self):
         return f'Competition dataset at {self.path}'
@@ -18,9 +27,9 @@ class DataSet:
             format='csv',
             fields=[
                 ('id', None),
-                ('text', TEXT),
+                ('text', textfield),
                 ('genre', None),
-                ('labels', LABEL)
+                ('labels', labelfield)
             ]
         )
         return train, val, test

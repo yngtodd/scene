@@ -12,7 +12,7 @@ from scene.data.loaders import BatchWrapper, BucketLoader
 from scene.models import BiLSTM
 
 
-def train(model, loader, vocab, criterion, optimizer, epoch):
+def train(model, loader, criterion, optimizer, epoch):
     model.train()
     iteration = 0
     running_loss = 0.0
@@ -22,10 +22,9 @@ def train(model, loader, vocab, criterion, optimizer, epoch):
         loss = criterion(pred, labels)
         loss.backward()
         optimizer.step()
-        running_loss += loss.data[0] * data.size(0)
+        running_loss += loss.item() * data.size(0)
         iteration += 1
-        if iteration % 10 == 0:
-            print(f'Epoch: {epoch}, Loss: {running_loss/len(loader):.6}')
+    print(f'Epoch: {epoch}, Loss: {running_loss/len(loader):.6}')
         
 
 def main():
@@ -36,13 +35,13 @@ def main():
     device = torch.device("cuda" if use_cuda else "cpu")
 
     data = DataSet(args.datapath)
-    train, val, test = data.load_splits()
-    data.textfield.build_vocab(train, vectors='glove.6B.100d')
+    train_data, val_data, test_data = data.load_splits()
+    data.textfield.build_vocab(train_data, vectors='glove.6B.100d')
     vocab = data.textfield.vocab
 
     bucket = BucketLoader(
-        train, 
-        val, 
+        train_data, 
+        val_data, 
         batch_sizes=(args.batch_size, args.batch_size),
         device=device
     )
@@ -50,7 +49,7 @@ def main():
     train_iter, val_iter = bucket.load_iterators()
 
     test_iter = Iterator(
-        test, 
+        test_data, 
         batch_size=args.batch_size, 
         device=device, 
         sort=False, 
@@ -62,12 +61,12 @@ def main():
     valloader = BatchWrapper(val_iter)
     testloader = BatchWrapper(test_iter)
 
-    model = BiLSTM(num_vocab=len(vocab), n_classes=9)
+    model = BiLSTM(num_vocab=len(vocab), n_classes=9).to(device)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
     criterion = nn.CrossEntropyLoss()
 
     for epoch in range(1, args.epochs+1):
-        train(model, trainloader, vocab, criterion, optimizer, epoch)
+        train(model, trainloader, criterion, optimizer, epoch)
         #val(model, valloader, criterion)
 
 

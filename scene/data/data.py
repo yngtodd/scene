@@ -15,7 +15,7 @@ class DataSet:
     def __init__(self, path):
         self.path = path
         self.textfield = Field(sequential=True, tokenize=tokenizer, lower=True)
-        self.labelfield = Field(sequential=False, use_vocab=False)
+        self.labelfield = Field(sequential=False, use_vocab=True)
 
     def __repr__(self):
         return f'Competition dataset at {self.path}'
@@ -31,8 +31,11 @@ class DataSet:
             fields=[
                 ('id', None),
                 ('text', self.textfield),
-                ('genre', None),
-                ('labels', self.labelfield)
+                ('genre', self.labelfield),
+                ('labels', None)
             ]
         )
+
+        self.textfield.build_vocab(train, val, test, vectors='glove.6B.100d')
+        self.labelfield.build_vocab(train, val)
         return train, val, test

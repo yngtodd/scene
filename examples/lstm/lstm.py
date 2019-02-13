@@ -17,6 +17,9 @@ def train(model, loader, criterion, optimizer, epoch):
     iteration = 0
     running_loss = 0.0
     for data, labels in tqdm.tqdm(loader):
+        # torchtext one-indexes the labels, breking crossentropy
+        labels = labels - 1
+        print(f'labels: {labels}')
         optimizer.zero_grad()
         pred = model(data)
         loss = criterion(pred, labels)
@@ -36,7 +39,7 @@ def main():
 
     data = DataSet(args.datapath)
     train_data, val_data, test_data = data.load_splits()
-    data.textfield.build_vocab(train_data, vectors='glove.6B.100d')
+    #data.textfield.build_vocab(train_data, vectors='glove.6B.100d')
     vocab = data.textfield.vocab
 
     bucket = BucketLoader(

@@ -8,7 +8,6 @@ try:
 except:
     print('Spacy requires its English tokenization library!')
     print('Install with `python -m spacy download en`')
-    break
 
 
 def tokenizer(text):

@@ -30,7 +30,8 @@ class BiLSTM(nn.Module):
             self.hparams.emb_dim,
             self.hparams.hidden_dim,
             num_layers = self.hparams.num_layers,
-            dropout = self.hparams.dropout
+            dropout = self.hparams.dropout,
+            bidirectional=True
         )
         return encoder
 

@@ -11,7 +11,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='LSTM!')
     parser.add_argument('-d','--datapath', metavar='DIR', 
-                        default='/home/ygx/dev/kaggle/scene/data/splits/csv',
+                        default='/home/ygx/dev/kaggle/scene/data/splits/small_val/csv',
                         help='path to dataset')
     parser.add_argument('--savepath', type=str,
                         default='/home/ygx/dev/kaggle/scene/saves',

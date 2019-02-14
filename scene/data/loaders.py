@@ -4,7 +4,7 @@ from torchtext.data import BucketIterator
 
 class BatchWrapper:
     """Convenience wrapper for dataloaders."""
-    def __init__(self, dataloader, data="text", label="genre"):
+    def __init__(self, dataloader, data="text", label=None):
         self.dataloader = dataloader
         self.data = data
         self.label = label

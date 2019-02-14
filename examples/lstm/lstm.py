@@ -18,11 +18,10 @@ def train(model, loader, criterion, optimizer, epoch):
     running_loss = 0.0
     for data, labels in tqdm.tqdm(loader):
         # torchtext one-indexes the labels, breking crossentropy
-        labels = labels - 1
-        print(f'labels: {labels}')
+        label = labels - 1
         optimizer.zero_grad()
         pred = model(data)
-        loss = criterion(pred, labels)
+        loss = criterion(pred, label)
         loss.backward()
         optimizer.step()
         running_loss += loss.item() * data.size(0)
@@ -64,7 +63,7 @@ def main():
     valloader = BatchWrapper(val_iter)
     testloader = BatchWrapper(test_iter)
 
-    model = BiLSTM(num_vocab=len(vocab), n_classes=9).to(device)
+    model = BiLSTM(num_vocab=len(vocab), n_classes=10).to(device)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
     criterion = nn.CrossEntropyLoss()
 

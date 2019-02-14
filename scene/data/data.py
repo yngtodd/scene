@@ -3,7 +3,12 @@ from torchtext.data import Field
 from torchtext.data import TabularDataset 
 
 
-spacy_en = spacy.load('en')
+try:
+    spacy_en = spacy.load('en')
+except:
+    print('Spacy requires its English tokenization library!')
+    print('Install with `python -m spacy download en`')
+    break
 
 
 def tokenizer(text):

@@ -3,10 +3,12 @@ import torch
 from time import strftime
 
 
-def save_checkpoint(model, optimizer, epoch, path, accuracy=None):
+def save_checkpoint(model, optimizer, epoch, path, accuracy=None, filename=None):
     """Save state"""
-    date = strftime("%Y_%m_%d")
-    filename = "save" + date
+    if filename is None:
+        date = strftime("%Y_%m_%d")
+        filename = "save" + date
+
     outpath = os.path.join(path, filename)
 
     torch.save(

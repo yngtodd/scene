@@ -35,6 +35,9 @@ setup(
     package_dir={'scene': 'scene'},
     include_package_data=True,
     install_requires=[
+        spacy,
+        torchtext,
+        tqdm
     ],
     license='MIT',
     zip_safe=False,

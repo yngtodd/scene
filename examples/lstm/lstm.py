@@ -10,6 +10,7 @@ from torchtext.data import Iterator
 from scene.data.loaders import BatchWrapper, BucketLoader
 
 from scene.models import BiLSTM
+from scene.models.save import save_checkpoint
 
 
 def train(model, loader, criterion, optimizer, epoch, args):
@@ -38,6 +39,26 @@ def train(model, loader, criterion, optimizer, epoch, args):
 
     if epoch % 10 == 0:
         save_chekpoint(model, optimizer, epoch, args.savepath, accuracy)
+
+
+def validate(model, loader, criterion, epoch):
+    model.eval()
+    total = 0
+    correct = 0
+    running_loss = 0.0
+    for data, labels in tqdm.tqdm(loader):
+        # torchtext one-indexes the labels, breaking crossentropy
+        label = labels - 1
+        pred = model(data)
+        loss = criterion(pred, label)
+        _, predicted = torch.max(pred.data, 1)
+        total += labels.size(0)
+        correct += (predicted == label).sum().item()
+        running_loss += loss.item() * data.size(0)
+
+    epoch_loss = running_loss / total
+    accuracy = 100 * correct / total
+    print(f'Epoch: {epoch}, Loss: {epoch_loss:.6}, Accuracy: {accuracy:.5}')
 
 
 def main():
@@ -80,7 +101,7 @@ def main():
 
     for epoch in range(1, args.epochs+1):
         train(model, trainloader, criterion, optimizer, epoch)
-        #val(model, valloader, criterion)
+        validate(model, valloader, criterion, epoch)
 
 
 if __name__=='__main__':

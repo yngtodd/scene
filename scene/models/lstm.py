@@ -23,7 +23,7 @@ class BiLSTM(nn.Module):
         self.embedding = nn.Embedding(num_vocab, self.hparams.emb_dim)
         self.encoder = self._get_encoder() 
         self.linear_layers = self._get_linear_layers()
-        self.predictor = nn.Linear(self.hparams.hidden_dim, n_classes)
+        self.predictor = nn.Linear(self.hparams.hidden_dim * 2, n_classes)
 
     def _get_encoder(self):
         encoder = nn.LSTM(
@@ -39,7 +39,7 @@ class BiLSTM(nn.Module):
         linear_layers = []
         for _ in range(self.hparams.num_linear-1):
             linear_layers.append(
-                nn.Linear(self.hparams.hidden_dim * 2, self.hparams.hidden_dim)
+                nn.Linear(self.hparams.hidden_dim, self.hparams.hidden_dim)
             )
         linear_layers = nn.ModuleList(linear_layers)
         return linear_layers

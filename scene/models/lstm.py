@@ -39,7 +39,7 @@ class BiLSTM(nn.Module):
         linear_layers = []
         for _ in range(self.hparams.num_linear-1):
             linear_layers.append(
-                nn.Linear(self.hparams.hidden_dim, self.hparams.hidden_dim)
+                nn.Linear(self.hparams.hidden_dim * 2, self.hparams.hidden_dim)
             )
         linear_layers = nn.ModuleList(linear_layers)
         return linear_layers

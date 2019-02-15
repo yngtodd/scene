@@ -19,7 +19,7 @@ def train(model, loader, criterion, optimizer, epoch):
     iteration = 0
     running_loss = 0.0
     for data, labels in tqdm.tqdm(loader):
-        # torchtext one-indexes the labels, breking crossentropy
+        # torchtext one-indexes the labels, breaking crossentropy
         label = labels - 1
         optimizer.zero_grad()
         pred = model(data)
@@ -34,7 +34,7 @@ def train(model, loader, criterion, optimizer, epoch):
 
     epoch_loss = running_loss / total
     accuracy = 100 * correct / total
-    print(f'Epoch: {epoch}, Loss: {epoch_loss:.6}, Accuracy: {accuracy}')
+    print(f'Epoch: {epoch}, Loss: {epoch_loss:.6}, Accuracy: {accuracy:.5}')
 
 
 def main():

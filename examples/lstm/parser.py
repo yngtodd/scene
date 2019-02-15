@@ -13,6 +13,9 @@ def parse_args():
     parser.add_argument('-d','--datapath', metavar='DIR', 
                         default='/home/ygx/dev/kaggle/scene/data/splits/csv',
                         help='path to dataset')
+    parser.add_argument('--savepath', type=str,
+                        default='/home/ygx/dev/kaggle/scene/saves',
+                        help='path to save checkpoints')
     parser.add_argument('--batch_size', type=int, default=1, metavar='N',
                         help='input batch size for training (default: 16)')
     parser.add_argument('--epochs', type=int, default=10, metavar='N',

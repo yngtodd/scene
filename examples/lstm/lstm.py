@@ -12,7 +12,7 @@ from scene.data.loaders import BatchWrapper, BucketLoader
 from scene.models import BiLSTM
 
 
-def train(model, loader, criterion, optimizer, epoch):
+def train(model, loader, criterion, optimizer, epoch, args):
     model.train()
     total = 0
     correct = 0
@@ -35,6 +35,9 @@ def train(model, loader, criterion, optimizer, epoch):
     epoch_loss = running_loss / total
     accuracy = 100 * correct / total
     print(f'Epoch: {epoch}, Loss: {epoch_loss:.6}, Accuracy: {accuracy:.5}')
+
+    if epoch % 10 == 0:
+        save_chekpoint(model, optimizer, epoch, args.savepath, accuracy)
 
 
 def main():

@@ -1,9 +1,9 @@
 .. raw:: html
 
-    <center>
-        <h2>
-            Savepoints 
-        </h2>
-    </center>
+<p align="center">
+    <h2>
+        Savepoints 
+    </h2>
+</p>
 
 --------------------------

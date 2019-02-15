@@ -14,6 +14,8 @@ from scene.models import BiLSTM
 
 def train(model, loader, criterion, optimizer, epoch):
     model.train()
+    total = 0
+    correct = 0
     iteration = 0
     running_loss = 0.0
     for data, labels in tqdm.tqdm(loader):

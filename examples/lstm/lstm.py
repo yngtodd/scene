@@ -24,10 +24,16 @@ def train(model, loader, criterion, optimizer, epoch):
         loss = criterion(pred, label)
         loss.backward()
         optimizer.step()
+        _, predicted = torch.max(pred.data, 1)
+        total += labels.size(0)
+        correct += (predicted == label).sum().item()
         running_loss += loss.item() * data.size(0)
         iteration += 1
-    print(f'Epoch: {epoch}, Loss: {running_loss/len(loader):.6}')
-        
+
+    epoch_loss = running_loss / total
+    accuracy = 100 * correct / total
+    print(f'Epoch: {epoch}, Loss: {epoch_loss:.6}, Accuracy: {accuracy}')
+
 
 def main():
     args = parse_args()
@@ -42,8 +48,8 @@ def main():
     vocab = data.textfield.vocab
 
     bucket = BucketLoader(
-        train_data, 
-        val_data, 
+        train_data,
+        val_data,
         batch_sizes=(args.batch_size, args.batch_size),
         device=device
     )
@@ -51,11 +57,11 @@ def main():
     train_iter, val_iter = bucket.load_iterators()
 
     test_iter = Iterator(
-        test_data, 
-        batch_size=args.batch_size, 
-        device=device, 
-        sort=False, 
-        sort_within_batch=False, 
+        test_data,
+        batch_size=args.batch_size,
+        device=device,
+        sort=False,
+        sort_within_batch=False,
         repeat=False
     )
 

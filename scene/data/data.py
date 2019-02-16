@@ -37,7 +37,8 @@ class DataSet:
                 ('text', self.textfield),
                 ('genre', self.labelfield),
                 ('labels', None)
-            ]
+            ],
+            skip_header=True
         )
 
         self.textfield.build_vocab(train, val, test, vectors='glove.6B.100d')

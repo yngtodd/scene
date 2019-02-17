@@ -22,6 +22,6 @@ class BaselineModel(Model):
         logits = self.projection(state)
         
         output = {"class_logits": logits}
-        output["loss"] = self.criterion(logits, label)
+        output["loss"] = self.criterion(logits, label.long())
 
         return output

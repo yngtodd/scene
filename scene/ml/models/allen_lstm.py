@@ -17,7 +17,7 @@ class Hparams:
         return str(Hparams().__dict__)
 
 
-class BiLSTM(Model):
+class AllenBiLSTM(Model):
 
     def __init__(self, word_embeddings, n_classes, hparams=Hparams()):
         super().__init__()

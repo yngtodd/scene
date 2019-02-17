@@ -42,7 +42,7 @@ def main():
     elmo_embedder = ElmoTokenEmbedder(args.options_file, args.weight_file)
     word_embeddings = BasicTextFieldEmbedder({"tokens": elmo_embedder})
 
-    model = AllenBiLSTM(word_embeddings, n_classes=9).to(device)
+    model = AllenBiLSTM(word_embeddings, vocab, n_classes=9).to(device)
     optimizer = optim.Adam(model.parameters())
 
     trainer = Trainer(

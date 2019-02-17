@@ -19,8 +19,8 @@ class Hparams:
 
 class AllenBiLSTM(Model):
 
-    def __init__(self, word_embeddings, n_classes, hparams=Hparams()):
-        super().__init__()
+    def __init__(self, word_embeddings, vocab, n_classes, hparams=Hparams()):
+        super().__init__(vocab)
         """AllenNLP version of our BiLSTM.
 
         Parameters

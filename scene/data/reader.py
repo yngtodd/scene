@@ -103,5 +103,5 @@ class DataReader(DatasetReader):
             for i, row in df.iterrows():
                 yield self.text_to_instance(
                     [Token(x) for x in self.tokenizer(row["text"])],
-                    row["id"], row["labels"]
+                    row["id"], np.array(row["labels"])
                 )

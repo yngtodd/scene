@@ -9,8 +9,8 @@ from scene.data import DataSet
 from torchtext.data import Iterator
 from scene.data.loaders import BatchWrapper, BucketLoader
 
-from scene.models import BiLSTM
-from scene.models.save import save_checkpoint
+from scene.ml.models import BiLSTM
+from scene.ml.save import save_checkpoint
 
 
 def train(model, loader, criterion, optimizer, epoch, args):
@@ -24,6 +24,7 @@ def train(model, loader, criterion, optimizer, epoch, args):
         label = labels - 1
         optimizer.zero_grad()
         pred = model(data)
+        print(f'pred shape: {pred.shape}')
         loss = criterion(pred, label)
         loss.backward()
         optimizer.step()
@@ -99,7 +100,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     for epoch in range(1, args.epochs+1):
-        train(model, trainloader, criterion, optimizer, epoch)
+        train(model, trainloader, criterion, optimizer, epoch, args)
         validate(model, valloader, criterion, epoch)
 
 

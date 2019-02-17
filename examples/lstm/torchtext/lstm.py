@@ -70,7 +70,6 @@ def main():
 
     data = DataSet(args.datapath)
     train_data, val_data, test_data = data.load_splits()
-    #data.textfield.build_vocab(train_data, vectors='glove.6B.100d')
     vocab = data.textfield.vocab
 
     bucket = BucketLoader(

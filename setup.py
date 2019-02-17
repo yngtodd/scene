@@ -35,6 +35,7 @@ setup(
     package_dir={'scene': 'scene'},
     include_package_data=True,
     install_requires=[
+        'allennlp',
         'spacy',
         'torchtext',
         'tqdm'

@@ -45,3 +45,4 @@ docs/_build
 word_vectors
 notebooks/.vector_cache
 examples/*/.vector_cache
+examples/*/*/.vector_cache

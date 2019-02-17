@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+
 from allennlp.models import Model
 
 
@@ -20,7 +21,8 @@ class BiLSTM(Model):
 
     def __init__(self, word_embeddings, n_classes, hparams=Hparams()):
         super().__init__()
-        """
+        """AllenNLP version of our BiLSTM.
+
         Parameters
         ----------
 

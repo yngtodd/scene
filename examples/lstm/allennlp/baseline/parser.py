@@ -10,11 +10,11 @@ def parse_args():
         Parsed arguments.
     """
     parser = argparse.ArgumentParser(description='LSTM!')
-    parser.add_argument('-d','--datapath', metavar='DIR', 
-                        default='/home/ygx/dev/kaggle/scene/data/splits/small_val/csv',
+    parser.add_argument('-d','--datapath', metavar='DIR',
+                        default='/home/ygx/kaggle/scene/data/splits/small_val/csv',
                         help='path to dataset')
     parser.add_argument('--savepath', type=str,
-                        default='/home/ygx/dev/kaggle/scene/saves',
+                        default='/home/ygx/kaggle/scene/saves',
                         help='path to save checkpoints')
     parser.add_argument('--options_file', type=str,
                         default='https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/' \

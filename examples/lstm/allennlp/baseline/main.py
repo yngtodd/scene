@@ -6,7 +6,7 @@ from parser import parse_args
 from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
-from scene.ml.models import BaselineModel 
+from scene.ml.models import BaselineModel
 from allennlp.modules.seq2vec_encoders import PytorchSeq2VecWrapper
 
 from allennlp.training.trainer import Trainer
@@ -33,7 +33,7 @@ def main():
     )
 
     iterator = BucketIterator(
-        batch_size=args.batch_size, 
+        batch_size=args.batch_size,
         sorting_keys=[("tokens", "num_tokens")],
     )
 
@@ -47,19 +47,19 @@ def main():
 
     Seq2VecEncoder = PytorchSeq2VecWrapper(
         nn.LSTM(
-            word_embeddings.get_output_dim(), 
-            64, 
-            bidirectional=True, 
+            word_embeddings.get_output_dim(),
+            64,
+            bidirectional=True,
             batch_first=True
         )
     )
 
     model = BaselineModel(
-        word_embeddings, 
-        vocab, 
-        Seq2VecEncoder, 
+        word_embeddings,
+        vocab,
+        Seq2VecEncoder,
         n_classes=9
-    )#.to(device)
+    ).to(device)
 
     optimizer = optim.Adam(model.parameters())
 
@@ -68,7 +68,7 @@ def main():
         optimizer=optimizer,
         iterator=iterator,
         train_dataset=traindata,
-        cuda_device=-1,
+        cuda_device=0,
         num_epochs=args.num_epochs,
     )
 

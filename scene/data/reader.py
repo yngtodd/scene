@@ -93,7 +93,7 @@ class DataReader(DatasetReader):
         filepath = os.path.join(path, split)
         df = pd.read_csv(filepath)
         
-        if split == 'test':
+        if split == 'test.csv':
             for i, row in df.iterrows():
                 yield self.text_to_instance(
                     [Token(x) for x in self.tokenizer(row["text"])],

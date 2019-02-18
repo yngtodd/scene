@@ -1,6 +1,11 @@
 import os
+import logging
 import numpy as np
 import pandas as pd
+
+from allennlp.common import Tqdm
+from allennlp.common.checks import ConfigurationError
+from allennlp.common.registrable import Registrable
 
 from overrides import overrides
 from allennlp.data import Instance
@@ -9,6 +14,9 @@ from allennlp.data.fields import MetadataField
 from allennlp.data.fields import ArrayField
 
 from allennlp.data.dataset_readers import DatasetReader
+from allennlp.data.dataset_readers.dataset_reader import _LazyInstances
+
+from allennlp.data.tokenizers import Token
 from allennlp.data.token_indexers import SingleIdTokenIndexer
 
 
@@ -35,8 +43,38 @@ class DataReader(DatasetReader):
         fields["label"] = label_field
 
         return Instance(fields)
-    
+
     @overrides
+    def read(self, path, split):
+        """Read in the data
+
+        Parameters
+        ----------
+        path : str
+            Path to directory containing csv files.
+
+        split : str
+            Which data split to load.
+            Must be 'train', 'val', or 'test'.
+        """
+        assert split in ('train', 'val', 'test')
+
+        lazy = getattr(self, 'lazy', None)
+        if lazy is None:
+            logger.warning("DatasetReader.lazy is not set, "
+                           "did you forget to call the superclass constructor?")
+
+        if lazy:
+            return _LazyInstances(lambda: iter(self._read(path, split)))
+        else:
+            instances = self._read(path, split)
+            if not isinstance(instances, list):
+                instances = [instance for instance in Tqdm.tqdm(instances)]
+            if not instances:
+                raise ConfigurationError("No instances were read from the given filepath {}. "
+                                         "Is the path correct?".format(path))
+            return instances
+    
     def _read(self, path, split):
         """Read in the data
 
@@ -65,5 +103,5 @@ class DataReader(DatasetReader):
             for i, row in df.iterrows():
                 yield self.text_to_instance(
                     [Token(x) for x in self.tokenizer(row["text"])],
-                    row["id"], row["labels"].values,
+                    row["id"], row["labels"]
                 )

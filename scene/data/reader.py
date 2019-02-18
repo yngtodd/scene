@@ -2,11 +2,14 @@ import os
 import numpy as np
 import pandas as pd
 
+from overrides import overrides
+from allennlp.data import Instance
 from allennlp.data.fields import TextField 
 from allennlp.data.fields import MetadataField
 from allennlp.data.fields import ArrayField
 
 from allennlp.data.dataset_readers import DatasetReader
+from allennlp.data.token_indexers import SingleIdTokenIndexer
 
 
 class DataReader(DatasetReader):
@@ -50,7 +53,7 @@ class DataReader(DatasetReader):
 
         split = split + '.csv'
         filepath = os.path.join(path, split)
-        df = pd.read_csv(file_path)
+        df = pd.read_csv(filepath)
         
         if split == 'test':
             for i, row in df.iterrows():

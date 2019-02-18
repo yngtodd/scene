@@ -11,13 +11,13 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Highway ConvNet!')
     parser.add_argument('-d','--datapath', metavar='DIR',
-                        default='/home/ygx/kaggle/scene/data/splits/small_val/csv',
+                        default='/home/ygx/dev/kaggle/scene/data/splits/small_val/csv',
                         help='path to dataset')
     parser.add_argument('--savepath', type=str,
                         default='/home/ygx/kaggle/scene/saves',
                         help='path to save checkpoints')
     parser.add_argument('--serialization_dir', type=str,
-                        default='/home/ygx/kaggle/scene/examples/highway_net/saves',
+                        default='/home/ygx/dev/kaggle/scene/examples/highway_net/saves',
                         help='path to save serialized models')
     parser.add_argument('--options_file', type=str,
                         default='https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/' \

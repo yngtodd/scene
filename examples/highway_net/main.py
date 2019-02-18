@@ -34,14 +34,15 @@ def main():
 
     iterator = BucketIterator(
         batch_size=args.batch_size,
-        sorting_keys=[("tokens", "num_tokens")],
+        sorting_keys=[("tokens", "num_tokens")]
     )
-
-    vocab = Vocabulary()
-    iterator.index_with(vocab)
 
     traindata = reader.read(args.datapath, 'train')
     valdata = reader.read(args.datapath, 'val')
+    testdata = reader.read(args.datapath, 'test')
+
+    vocab = Vocabulary.from_instances(traindata + valdata + testdata)
+    iterator.index_with(vocab)
 
     elmo_embedder = ElmoTokenEmbedder(args.options_file, args.weight_file)
     word_embeddings = BasicTextFieldEmbedder({"tokens": elmo_embedder})
@@ -71,8 +72,8 @@ def main():
         train_dataset=traindata,
         validation_dataset=valdata,
         validation_iterator=iterator,
-        cuda_device=1,
-        patience=5,
+        cuda_device=-1,
+        patience=10,
         num_epochs=args.num_epochs,
     )
 

@@ -6,4 +6,4 @@ def spacy_splitter_factory():
 
 
 def spacy_word_tokenizer(x):
-    return [w.text for w in spacy_splitter_factory().split_words(x)]
+    return [w.text for w in spacy_splitter_factory().batch_split_words(x)]

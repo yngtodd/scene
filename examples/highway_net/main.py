@@ -7,7 +7,7 @@ from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
 from scene.ml.models import BaselineModel
-from allennlp.modules.seq2vec_encoders import PytorchSeq2VecWrapper
+from allennlp.modules.seq2vec_encoders import CnnHighwayEncoder
 
 from allennlp.training.trainer import Trainer
 from allennlp.data.vocabulary import Vocabulary
@@ -23,7 +23,7 @@ def main():
 
     torch.manual_seed(args.seed)
     use_cuda = not args.no_cuda and torch.cuda.is_available()
-    device = torch.device("cuda" if use_cuda else "cpu")
+    device = torch.device("cuda:1" if use_cuda else "cpu")
 
     token_indexer = ELMoTokenCharactersIndexer()
 
@@ -46,19 +46,17 @@ def main():
     elmo_embedder = ElmoTokenEmbedder(args.options_file, args.weight_file)
     word_embeddings = BasicTextFieldEmbedder({"tokens": elmo_embedder})
 
-    Seq2VecEncoder = PytorchSeq2VecWrapper(
-        nn.LSTM(
-            word_embeddings.get_output_dim(),
-            64,
-            bidirectional=True,
-            batch_first=True
-        )
+    encoder = CnnHighwayEncoder(
+        embedding_dim=word_embeddings.get_output_dim(),
+        filters=[(2,100), (3,100), (4,100), (5,100)],
+        num_highway=3,
+        projection_dim=50
     )
 
     model = BaselineModel(
         word_embeddings,
         vocab,
-        Seq2VecEncoder,
+        encoder,
         n_classes=9
     ).to(device)
 
@@ -73,7 +71,7 @@ def main():
         train_dataset=traindata,
         validation_dataset=valdata,
         validation_iterator=iterator,
-        cuda_device=0,
+        cuda_device=1,
         patience=5,
         num_epochs=args.num_epochs,
     )

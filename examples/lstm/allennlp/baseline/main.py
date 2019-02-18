@@ -67,7 +67,7 @@ def main():
     trainer = Trainer(
         model=model,
         optimizer=optimizer,
-        validation_metric='+accuracy',
+        validation_metric="+accuracy",
         serialization_dir=args.serialization_dir,
         iterator=iterator,
         train_dataset=traindata,

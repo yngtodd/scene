@@ -50,8 +50,8 @@ def main():
     encoder = CnnHighwayEncoder(
         embedding_dim=word_embeddings.get_output_dim(),
         filters=[(2,100), (3,100), (4,100), (5,100)],
-        num_highway=3,
-        projection_dim=50
+        num_highway=4,
+        projection_dim=100
     )
 
     model = BaselineModel(
@@ -72,7 +72,7 @@ def main():
         train_dataset=traindata,
         validation_dataset=valdata,
         validation_iterator=iterator,
-        cuda_device=-1,
+        cuda_device=1,
         patience=10,
         num_epochs=args.num_epochs,
     )

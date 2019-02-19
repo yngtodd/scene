@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torch.nn.functional as F
 
 from allennlp.models import Model
 from allennlp.nn.util import get_text_field_mask
@@ -25,7 +26,7 @@ class BaselineModel(Model):
         output = {"class_logits": logits}
 
         if label is not None:
-            self.accuracy(logits, label, mask)
+            self.accuracy(F.softmax(logits), label, mask)
             output["loss"] = self.criterion(logits, label.long())
 
         return output

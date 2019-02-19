@@ -75,7 +75,8 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
 
     @overrides
     def get_output_dim(self) -> int:
-        return self.conf.out_channels0 + self.conf.out_channels1 + self.conf.out_channels2
+        #self.conf.out_channels0
+        return self.conf.out_channels1 + self.conf.out_channels2
 
 
 class BertYoonKim(Model):

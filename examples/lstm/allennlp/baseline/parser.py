@@ -16,6 +16,9 @@ def parse_args():
     parser.add_argument('--savepath', type=str,
                         default='/home/ygx/kaggle/scene/saves',
                         help='path to save checkpoints')
+    parser.add_argument('--serialization_dir', type=str,
+                        default='/home/ygx/kaggle/scene/examples/lstm/allennlp/baseline/saves',
+                        help='path to save serialized models')
     parser.add_argument('--options_file', type=str,
                         default='https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/' \
                                 '2x1024_128_2048cnn_1xhighway/elmo_2x1024_128_2048cnn_1xhighway_options.json',

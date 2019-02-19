@@ -41,6 +41,7 @@ def main():
     iterator.index_with(vocab)
 
     traindata = reader.read(args.datapath, 'train')
+    valdata = reader.read(args.datapath, 'val')
 
     elmo_embedder = ElmoTokenEmbedder(args.options_file, args.weight_file)
     word_embeddings = BasicTextFieldEmbedder({"tokens": elmo_embedder})
@@ -66,9 +67,14 @@ def main():
     trainer = Trainer(
         model=model,
         optimizer=optimizer,
+        validation_metric='+accuracy',
+        serialization_dir=args.serialization_dir,
         iterator=iterator,
         train_dataset=traindata,
+        validation_dataset=valdata,
+        validation_iterator=iterator,
         cuda_device=0,
+        patience=5,
         num_epochs=args.num_epochs,
     )
 

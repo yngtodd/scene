@@ -26,8 +26,6 @@ class BaselineModel(Model):
         output = {"class_logits": logits}
 
         if label is not None:
-            print(f'logits shape: {logits.shape}')
-            print(f'label shape: {label.shape}')
             self.accuracy(logits, label)
             output["loss"] = self.criterion(logits, label.long())
 

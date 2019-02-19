@@ -67,7 +67,7 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
 
     def forward(self, x):
         conv_features = []
-        conv_features.append(self.block0(x))
+        #conv_features.append(self.block0(x))
         conv_features.append(self.block1(x))
         conv_features.append(self.block2(x)) 
         x = torch.cat(conv_features, 1)

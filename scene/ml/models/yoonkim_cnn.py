@@ -10,57 +10,40 @@ from allennlp.modules.seq2vec_encoders import Seq2VecEncoder
 from allennlp.modules.text_field_embedders import TextFieldEmbedder
 
 
-class BertSentencePooler(Seq2VecEncoder):
-
-    def __init__(self, vocab, embedding_dim):
-        super().__init__()
-        self.vocab = vocab
-        self.embedding_dim = embedding_dim
-
-
-    def forward(self, embs, mask=None):
-        # extract first token tensor
-        return embs[:, 0]
-    
-    @overrides
-    def get_output_dim(self) -> int:
-        return self.embedding_dim 
-
-
-class Conv2dEncoderConfig:
+class YoonKimConfig:
     # Block0
     in_channels0 = 1
     out_channels0 = 100
     kernel_size0 = 3
-    pool_size0 = 100
+    pool_size0 = 1
     # Block1
-    in_channels1 = 100
+    in_channels1 = 1
     out_channels1 = 100
     kernel_size1 = 4
-    pool_size1 = 100
+    pool_size1 = 1
     # Block2
-    in_channels2 = 100
+    in_channels2 = 1
     out_channels2 = 1
     kernel_size2 = 5
-    pool_size2 = 10
+    pool_size2 = 1
 
 
 class ConvBlock(nn.Sequential):
 
     def __init__(self, in_channels, out_channels, kernel_size, pool_size, dropout=0.2):
         super(ConvBlock, self).__init__()
-        self.add_module('conv2d', nn.Conv2d(in_channels, out_channels, kernel_size))
+        self.add_module('conv1d', nn.Conv1d(in_channels, out_channels, kernel_size))
         self.add_module('relu', nn.ReLU(inplace=True))
-        self.add_module('adaptive_maxpool', nn.AdaptiveMaxPool2d(pool_size))
+        self.add_module('adaptive_maxpool', nn.AdaptiveMaxPool1d(pool_size))
         self.add_module('dropout', nn.Dropout(p=dropout))
 
     def forward(self, x):
         return super(ConvBlock, self).forward(x)
 
 
-class Conv2dEncoder(Seq2VecEncoder):
+class YoonKimConv1DEncoder(Seq2VecEncoder):
 
-    def __init__(self, config=Conv2dEncoderConfig()):
+    def __init__(self, config=YoonKimConfig()):
         super().__init__()
         self.conf = config
         self.block0 = ConvBlock(
@@ -75,7 +58,7 @@ class Conv2dEncoder(Seq2VecEncoder):
             self.conf.kernel_size1, 
             self.conf.pool_size1
         )
-        self.block1 = ConvBlock(
+        self.block2 = ConvBlock(
             self.conf.in_channels2, 
             self.conf.out_channels2, 
             self.conf.kernel_size2, 
@@ -83,20 +66,19 @@ class Conv2dEncoder(Seq2VecEncoder):
         )
 
     def forward(self, x):
-        print_shape('x input encoder', x)
-        x = self.block0(x)
-        print_shape('block 0 out', x)
-        x = self.block1(x)
-        print_shape('block 1 out', x)
-        x = self.block2(x)
+        conv_features = []
+        conv_features.append(self.block0(x))
+        conv_features.append(self.block1(x))
+        conv_features.append(self.block2(x)) 
+        x = torch.cat(conv_features, 1)
         return x
 
     @overrides
     def get_output_dim(self) -> int:
-        return self.conf.pool_size2**2 
+        return self.conf.out_channels0 + self.conf.out_channels1 + self.conf.out_channels2
 
 
-class BertModel2D(Model):
+class BertYoonKim(Model):
 
     def __init__(self, word_embeddings, vocab, bertpooler, encoder, n_classes):
         super().__init__(vocab)
@@ -111,9 +93,9 @@ class BertModel2D(Model):
         mask = get_text_field_mask(tokens)
         embeddings = self.word_embeddings(tokens)
         state = self.bertpooler(embeddings, mask)
-        print_shape('state prior', state) 
+        #print_shape('state prior', state) 
         state = torch.unsqueeze(state, 1)
-        print_shape('shape post', state)
+        #print_shape('shape post', state)
         features = self.encoder(state)
         features = features.view(features.size(0), -1)
         logits = self.projection(features)
@@ -127,7 +109,3 @@ class BertModel2D(Model):
 
     def get_metrics(self, reset=False):
         return {"accuracy": self.accuracy.get_metric(reset)}
-
-
-def print_shape(name, x):
-    print(f'{name} has shape {x.shape}')

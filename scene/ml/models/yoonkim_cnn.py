@@ -13,17 +13,17 @@ from allennlp.modules.text_field_embedders import TextFieldEmbedder
 class YoonKimConfig:
     # Block0
     in_channels0 = 1
-    out_channels0 = 100
+    out_channels0 = 50 
     kernel_size0 = 3
     pool_size0 = 1
     # Block1
     in_channels1 = 1
-    out_channels1 = 100
+    out_channels1 = 50 
     kernel_size1 = 4
     pool_size1 = 1
     # Block2
     in_channels2 = 1
-    out_channels2 = 1
+    out_channels2 = 50 
     kernel_size2 = 5
     pool_size2 = 1
 
@@ -93,9 +93,7 @@ class BertYoonKim(Model):
         mask = get_text_field_mask(tokens)
         embeddings = self.word_embeddings(tokens)
         state = self.bertpooler(embeddings, mask)
-        #print_shape('state prior', state) 
         state = torch.unsqueeze(state, 1)
-        #print_shape('shape post', state)
         features = self.encoder(state)
         features = features.view(features.size(0), -1)
         logits = self.projection(features)

@@ -76,7 +76,7 @@ def main():
         bert_pooler,
         encoder,
         n_classes=9
-    )#.to(device)
+    ).to(device)
 
     optimizer = optim.Adam(model.parameters())
 
@@ -89,7 +89,7 @@ def main():
         train_dataset=traindata,
         validation_dataset=valdata,
         validation_iterator=iterator,
-        cuda_device=-1,
+        cuda_device=3,
         patience=10,
         num_epochs=args.num_epochs,
     )

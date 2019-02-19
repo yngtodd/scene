@@ -13,17 +13,17 @@ from allennlp.modules.text_field_embedders import TextFieldEmbedder
 class YoonKimConfig:
     # Block0
     in_channels0 = 1
-    out_channels0 = 50 
+    out_channels0 = 100 
     kernel_size0 = 3
     pool_size0 = 1
     # Block1
     in_channels1 = 1
-    out_channels1 = 50 
+    out_channels1 = 100 
     kernel_size1 = 4
     pool_size1 = 1
     # Block2
     in_channels2 = 1
-    out_channels2 = 50 
+    out_channels2 = 100 
     kernel_size2 = 5
     pool_size2 = 1
 
@@ -67,7 +67,7 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
 
     def forward(self, x):
         conv_features = []
-        #conv_features.append(self.block0(x))
+        conv_features.append(self.block0(x))
         conv_features.append(self.block1(x))
         conv_features.append(self.block2(x)) 
         x = torch.cat(conv_features, 1)
@@ -75,8 +75,7 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
 
     @overrides
     def get_output_dim(self) -> int:
-        #self.conf.out_channels0
-        return self.conf.out_channels1 + self.conf.out_channels2
+        return self.conf.out_channels0 + self.conf.out_channels1 + self.conf.out_channels2
 
 
 class BertYoonKim(Model):

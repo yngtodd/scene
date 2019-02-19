@@ -29,7 +29,7 @@ def main():
 
     torch.manual_seed(args.seed)
     use_cuda = not args.no_cuda and torch.cuda.is_available()
-    device = torch.device("cuda:1" if use_cuda else "cpu")
+    device = torch.device("cuda:3" if use_cuda else "cpu")
 
     bert_embedder = PretrainedBertEmbedder(
         pretrained_model="bert-base-uncased",

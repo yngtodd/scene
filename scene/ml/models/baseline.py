@@ -26,7 +26,7 @@ class BaselineModel(Model):
         output = {"class_logits": logits}
 
         if label is not None:
-            self.accuracy(F.softmax(logits, dim=1), label, mask)
+            self.accuracy(F.softmax(logits, dim=0), label, mask)
             output["loss"] = self.criterion(logits, label.long())
 
         return output

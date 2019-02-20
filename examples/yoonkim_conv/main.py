@@ -78,7 +78,7 @@ def main():
         n_classes=9
     ).to(device)
 
-    optimizer = optim.Adam(model.parameters())
+    optimizer = optim.Adam(model.parameters(), lr=0.01)
 
     trainer = Trainer(
         model=model,

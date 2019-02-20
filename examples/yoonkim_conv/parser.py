@@ -9,12 +9,12 @@ def parse_args():
     * `args`: [argparse object]
         Parsed arguments.
     """
-    parser = argparse.ArgumentParser(description='Bert Conv2D!')
+    parser = argparse.ArgumentParser(description='BertKim Combo!')
     parser.add_argument('-d','--datapath', metavar='DIR',
                         default='/home/ygx/kaggle/scene/data/splits/small_val/csv',
                         help='path to dataset')
     parser.add_argument('--savepath', type=str,
-                        default='/home/ygx/kaggle/scene/saves',
+                        default='/home/kaggle/scene/saves',
                         help='path to save checkpoints')
     parser.add_argument('--serialization_dir', type=str,
                         default='/home/ygx/kaggle/scene/examples/yoonkim_conv/saves',

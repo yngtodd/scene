@@ -25,7 +25,7 @@ class BaselineModel(Model):
         embeddings = self.word_embeddings(tokens)
         state = self.encoder(embeddings, mask)
         logits = self.projection(state)
-        output = {"class_logits": logits}
+        output = {"logits": logits}
 
         if label is not None:
             self.accuracy(logits, label)

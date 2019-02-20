@@ -40,7 +40,7 @@ class DataReader(DatasetReader):
             labels = np.zeros(1)
 
         label_field = LabelField(labels)
-        fields["label"] = label_field
+        fields["labels"] = label_field
 
         return Instance(fields)
 

@@ -6,7 +6,7 @@ from parser import parse_args
 from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
-from scene.ml.models import BertYoonKim 
+from scene.ml.models import BertYoonKim
 from scene.ml.models import YoonKimConv1DEncoder
 from scene.ml.models import BertSentencePooler
 

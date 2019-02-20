@@ -38,8 +38,9 @@ class ConvBlock(nn.Sequential):
 
 class YoonKimConv1DEncoder(Seq2VecEncoder):
 
-    def __init__(self, config=YoonKimConfig()):
+    def __init__(self, mask=None, config=YoonKimConfig()):
         super().__init__()
+        self.mask = mask
         self.conf = config
         self.block0 = ConvBlock(
             self.conf.in_channels0, 

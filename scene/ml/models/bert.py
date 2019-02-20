@@ -96,7 +96,7 @@ class Conv2dEncoder(Seq2VecEncoder):
         return self.conf.pool_size2**2 
 
 
-class BertModel2D(Model):
+class BertModelD(Model):
 
     def __init__(self, word_embeddings, vocab, bertpooler, encoder, n_classes):
         super().__init__(vocab)

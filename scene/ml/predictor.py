@@ -1,6 +1,8 @@
-import torch
 import numpy as np
 from tqdm import tqdm
+
+import torch
+import torch.nn.functional as F
 
 from allennlp.nn import util as nn_util
 from allennlp.data.iterators import DataIterator
@@ -11,7 +13,7 @@ def to_numpy(x): return x.detach().cpu().numpy()
 
 class Predictor:
 
-    def __init__(self, model, iterator, device):
+    def __init__(self, model, iterator, device="cpu"):
         self.model = model
         self.iterator = iterator
         self.device = device
@@ -19,7 +21,7 @@ class Predictor:
     def _extract_data(self, batch) -> np.ndarray:
         out_dict = self.model(**batch)
         arry = to_numpy(out_dict["logits"])
-        out = torch.sigmoid(arry)
+        out = F.softmax(arry, dim=1)
         return out
     
     def predict(self, data):
@@ -31,10 +33,16 @@ class Predictor:
             total=self.iterator.get_num_batches(data)
         )
 
-        preds = []
+        ids = []
+        logits = []
         with torch.no_grad():
             for batch in pred_generator_tqdm:
-                batch = nn_util.move_to_device(batch, self.device)
-                preds.append(self._extract_data(batch))
+                out = self.model(batch["tokens"], batch["id"])
+                logits.append(out["logits"])
+                ids.append(torch.tensor(out["id"]))
+        
+        ids = torch.cat(ids, dim=0)
+        logits = torch.cat(logits, dim=0)
+        output = {"id": ids, "logits": logits}
 
-        return np.concatenate(preds, axis=0)
+        return output

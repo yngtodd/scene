@@ -11,7 +11,7 @@ from overrides import overrides
 from allennlp.data import Instance
 from allennlp.data.fields import TextField 
 from allennlp.data.fields import MetadataField
-from allennlp.data.fields import ArrayField
+from allennlp.data.fields import LabelField
 
 from allennlp.data.dataset_readers import DatasetReader
 from allennlp.data.dataset_readers.dataset_reader import _LazyInstances
@@ -39,7 +39,7 @@ class DataReader(DatasetReader):
         if labels is None:
             labels = np.zeros(1)
 
-        label_field = ArrayField(array=labels)
+        label_field = LabelField(labels)
         fields["label"] = label_field
 
         return Instance(fields)
@@ -103,5 +103,5 @@ class DataReader(DatasetReader):
             for i, row in df.iterrows():
                 yield self.text_to_instance(
                     [Token(x) for x in self.tokenizer(row["text"])],
-                    row["id"], np.array(row["labels"], dtype=np.uint8)
+                    row["id"], row["genre"]
                 )

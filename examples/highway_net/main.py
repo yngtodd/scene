@@ -29,7 +29,7 @@ def main():
 
     reader = DataReader(
         tokenizer=spacy_word_tokenizer,
-        token_indexers={"tokens": token_indexer}
+        #token_indexers={"tokens": token_indexer}
     )
 
     iterator = BucketIterator(

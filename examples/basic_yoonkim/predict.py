@@ -33,7 +33,6 @@ def main():
     testdata = reader.read(args.datapath, 'test')
     iterator = BasicIterator(batch_size=28)
 
-    #vocab = Vocabulary.from_instances(traindata + valdata + testdata)
     vocab = Vocabulary.from_files("./final_save/vocabulary")
     iterator.index_with(vocab)
 
@@ -43,8 +42,6 @@ def main():
     )
 
     word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
-
-    #encoder = YoonKimConv1DEncoder(args.embedding_dim)
 
     encoder = CnnHighwayEncoder(
         embedding_dim=word_embeddings.get_output_dim(),

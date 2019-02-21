@@ -7,8 +7,8 @@ import pandas as pd
 from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
+from scene.ml.predictor import Predictor
 from scene.ml.models import BaselineModel
-from scene.ml.models.predictor import Predictor
 from allennlp.modules.seq2vec_encoders import CnnHighwayEncoder
 
 from allennlp.training.trainer import Trainer

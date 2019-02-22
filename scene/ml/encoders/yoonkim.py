@@ -61,7 +61,7 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
             self.conf.pool_size2
         )
 
-    def forward(self, x):
+    def forward(self, x, mask=None):
         conv_features = []
         conv_features.append(self.block0(x))
         conv_features.append(self.block1(x))

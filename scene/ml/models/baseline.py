@@ -21,7 +21,7 @@ class BaselineModel(Model):
         self.criterion = nn.CrossEntropyLoss()
         self.accuracy = CategoricalAccuracy()
         
-    def forward(self, tokens, id, labels):
+    def forward(self, tokens, id, labels=None):
         mask = get_text_field_mask(tokens)
         embeddings = self.word_embeddings(tokens)
         state = self.encoder(embeddings, mask)

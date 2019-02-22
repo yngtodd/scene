@@ -61,11 +61,12 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
             self.conf.pool_size2
         )
 
-    def forward(self, x, mask=None):
+    def forward(self, tokens, mask=None):
+        tokens = torch.transpose(tokens, 1, 2)
         conv_features = []
-        conv_features.append(self.block0(x))
-        conv_features.append(self.block1(x))
-        conv_features.append(self.block2(x)) 
+        conv_features.append(self.block0(tokens))
+        conv_features.append(self.block1(tokens))
+        conv_features.append(self.block2(tokens)) 
         x = torch.cat(conv_features, 1)
         return x
 

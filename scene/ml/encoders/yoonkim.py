@@ -7,17 +7,17 @@ from allennlp.modules.seq2vec_encoders import Seq2VecEncoder
 
 class YoonKimConfig:
     # Block0
-    in_channels0 = 1
+    in_channels0 = 229 
     out_channels0 = 100 
     kernel_size0 = 3
     pool_size0 = 1
     # Block1
-    in_channels1 = 1
+    in_channels1 = 229 
     out_channels1 = 100 
     kernel_size1 = 4
     pool_size1 = 1
     # Block2
-    in_channels2 = 1
+    in_channels2 = 229 
     out_channels2 = 100 
     kernel_size2 = 5
     pool_size2 = 1

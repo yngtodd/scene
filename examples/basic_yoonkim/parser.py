@@ -28,7 +28,7 @@ def parse_args():
                                 '2x1024_128_2048cnn_1xhighway/elmo_2x1024_128_2048cnn_1xhighway_weights.hdf5',
                         help='Elmo embedding weights')
     parser.add_argument('--embedding_dim', type=int, default=300, metavar='E',
-                        help='Word embedding dimesion (default: 300)'
+                        help='Word embedding dimesion (default: 300)')
     parser.add_argument('--batch_size', type=int, default=28, metavar='N',
                         help='input batch size for training (default: 16)')
     parser.add_argument('--num_epochs', type=int, default=100, metavar='N',

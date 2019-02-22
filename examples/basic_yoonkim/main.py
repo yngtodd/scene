@@ -7,7 +7,8 @@ from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
 from scene.ml.models import BaselineModel
-from scene.ml.encoders import YoonKimConv1DEncoder 
+from scene.ml.encoders import YoonKimConv1DEncoder
+from allennlp.modules.seq2vec_encoders import CnnHighwayEncoder
 
 from allennlp.training.trainer import Trainer
 from allennlp.data.vocabulary import Vocabulary
@@ -46,7 +47,16 @@ def main():
     )
 
     word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
-    encoder = YoonKimConv1DEncoder(args.embedding_dim)
+
+    #encoder = YoonKimConv1DEncoder(args.embedding_dim)
+
+    encoder = CnnHighwayEncoder(
+        embedding_dim=word_embeddings.get_output_dim(),
+        filters=[(3,100), (4,100), (5,100)],
+        num_highway=2,
+        projection_dim=100,
+        do_layer_norm=True
+    )
 
     model = BaselineModel(
         word_embeddings,
@@ -67,7 +77,7 @@ def main():
         validation_dataset=valdata,
         validation_iterator=iterator,
         cuda_device=3,
-        patience=10,
+        patience=15,
         num_epochs=args.num_epochs,
     )
 

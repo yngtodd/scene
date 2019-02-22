@@ -66,6 +66,7 @@ class YoonKimConv1DEncoder(Seq2VecEncoder):
         # convolution layers expect input of shape `(batch_size, in_channels, sequence_length)`,
         # where the conv layer `in_channels` is our `embedding_dim`.  We thus need to transpose the
         # tensor first.
+        print(f'tokens shape: {tokens.shape}')
         tokens = tokens.transpose(tokens, 1, 2)
         conv_features = []
         conv_features.append(self.block0(tokens))

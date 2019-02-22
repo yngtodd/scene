@@ -42,11 +42,11 @@ def main():
 
     token_embedding = Embedding(
         num_embeddings=vocab.get_vocab_size('tokens'),
-        embedding_dim=300
+        embedding_dim=args.embedding_dim
     )
 
     word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
-    encoder = YoonKimConv1DEncoder()
+    encoder = YoonKimConv1DEncoder(args.embedding_dim)
 
     model = BaselineModel(
         word_embeddings,

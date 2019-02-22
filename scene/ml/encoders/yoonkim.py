@@ -38,34 +38,40 @@ class ConvBlock(nn.Sequential):
 
 class YoonKimConv1DEncoder(Seq2VecEncoder):
 
-    def __init__(self, mask=None, config=YoonKimConfig()):
+    def __init__(self, embedding_dim, mask=None, config=YoonKimConfig()):
         super().__init__()
         self.mask = mask
         self.conf = config
         self.block0 = ConvBlock(
-            self.conf.in_channels0, 
+            embedding_dim, 
             self.conf.out_channels0, 
             self.conf.kernel_size0, 
             self.conf.pool_size0
         )
         self.block1 = ConvBlock(
-            self.conf.in_channels1, 
+            embedding_dim,
             self.conf.out_channels1, 
             self.conf.kernel_size1, 
             self.conf.pool_size1
         )
         self.block2 = ConvBlock(
-            self.conf.in_channels2, 
+            embedding_dim,
             self.conf.out_channels2, 
             self.conf.kernel_size2, 
             self.conf.pool_size2
         )
 
-    def forward(self, x, mask=None):
+    def forward(self, tokens, mask=None):
+        # Our input is expected to have shape `(batch_size, num_tokens, embedding_dim)`.  The
+        # convolution layers expect input of shape `(batch_size, in_channels, sequence_length)`,
+        # where the conv layer `in_channels` is our `embedding_dim`.  We thus need to transpose the
+        # tensor first.
+        print(f'tokens shape: {tokens.shape}')
+        tokens = tokens.transpose(tokens, 1, 2)
         conv_features = []
-        conv_features.append(self.block0(x))
-        conv_features.append(self.block1(x))
-        conv_features.append(self.block2(x)) 
+        conv_features.append(self.block0(tokens))
+        conv_features.append(self.block1(tokens))
+        conv_features.append(self.block2(tokens)) 
         x = torch.cat(conv_features, 1)
         return x
 

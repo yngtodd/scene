@@ -36,11 +36,9 @@ class DataReader(DatasetReader):
         id_field = MetadataField(id)
         fields["id"] = id_field
         
-        if labels is None:
-            labels = np.zeros(1)
-
-        label_field = LabelField(labels)
-        fields["labels"] = label_field
+        if labels:
+            label_field = LabelField(labels)
+            fields["labels"] = label_field
 
         return Instance(fields)
 

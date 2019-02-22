@@ -82,7 +82,11 @@ def main():
     )
 
     metrics = trainer.train()
-    print(metrics)
+
+    with open("./final_save/model.th", 'wb') as f:
+        torch.save(model.state_dict(), f)
+
+    vocab.save_to_files("./final_save/vocabulary")
 
 
 if __name__=='__main__':

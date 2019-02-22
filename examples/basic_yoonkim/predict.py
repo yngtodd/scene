@@ -34,7 +34,7 @@ def main():
     iterator = BasicIterator(batch_size=28)
 
     #vocab = Vocabulary.from_instances(traindata + valdata + testdata)
-    vocab2 = Vocabulary.from_files("./final_save/vocabulary")
+    vocab = Vocabulary.from_files("./final_save/vocabulary")
     iterator.index_with(vocab)
 
     token_embedding = Embedding(
@@ -59,13 +59,13 @@ def main():
         vocab,
         encoder,
         n_classes=9
-    ).to(device)
+    )
 
-    with open("/saves/best.th", 'rb') as f:
+    with open("./saves/best.th", 'rb') as f:
         model.load_state_dict(torch.load(f))
 
     predictor = Predictor(model, iterator)
-    out = predictor.predict(testdata) 
+    out = predictor.predict(testdata)
 
     outfile = 'submission.csv'
     print(f'Creating submission file - {outfile}')

@@ -21,16 +21,16 @@ class BaselineModel(Model):
         self.criterion = nn.CrossEntropyLoss()
         self.accuracy = CategoricalAccuracy()
         
-    def forward(self, tokens, id, label):
+    def forward(self, tokens, id, labels):
         mask = get_text_field_mask(tokens)
         embeddings = self.word_embeddings(tokens)
         state = self.encoder(embeddings, mask)
         logits = self.projection(state)
         output = {"logits": logits}
 
-        if label is not None:
-            self.accuracy(logits, label)
-            output["loss"] = self.criterion(logits, label.long())
+        if labels is not None:
+            self.accuracy(logits, labels)
+            output["loss"] = self.criterion(logits, labels.long())
 
         return output
 

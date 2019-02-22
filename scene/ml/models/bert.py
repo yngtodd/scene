@@ -1,3 +1,5 @@
+from typing import Dict, Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -98,7 +100,7 @@ class Conv2dEncoder(Seq2VecEncoder):
         return self.conf.pool_size2**2 
 
 
-class BertModelD(Model):
+class BertModel2D(Model):
 
     def __init__(self, word_embeddings, vocab, bertpooler, encoder, n_classes):
         super().__init__(vocab)

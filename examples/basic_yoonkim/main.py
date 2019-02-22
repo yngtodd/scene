@@ -22,7 +22,7 @@ def main():
 
     torch.manual_seed(args.seed)
     use_cuda = not args.no_cuda and torch.cuda.is_available()
-    device = torch.device("cuda:1" if use_cuda else "cpu")
+    device = torch.device("cuda:3" if use_cuda else "cpu")
 
     reader = DataReader(
         tokenizer=spacy_word_tokenizer,
@@ -66,7 +66,7 @@ def main():
         train_dataset=traindata,
         validation_dataset=valdata,
         validation_iterator=iterator,
-        cuda_device=1,
+        cuda_device=3,
         patience=10,
         num_epochs=args.num_epochs,
     )

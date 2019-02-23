@@ -5,7 +5,7 @@ from allennlp.models import Model
 
 
 class Hparams:
-    def __init__(self, hidden_dim=50, emb_dim=256, 
+    def __init__(self, hidden_dim=50, emb_dim=300, 
                  dropout=0.1, num_layers=2, num_linear=1):
         self.hidden_dim = hidden_dim 
         self.emb_dim = emb_dim

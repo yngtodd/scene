@@ -82,8 +82,8 @@ class AllenBiLSTM(Model):
 
         logits = self.predictor(feature)
         print(f'logits shape = {logits.shape}')
-        print(f'label shape = {label.shape}')
+        print(f'label shape = {labels.shape}')
         output = {"class_logits": logits}
-        output["loss"] = self.criterion(logits, label)
+        output["loss"] = self.criterion(logits, labels)
 
         return output

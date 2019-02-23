@@ -17,17 +17,13 @@ class Predictor:
         self.model = model
         self.iterator = iterator
         self.device = device
-        
+
     def _extract_data(self, batch) -> np.ndarray:
         out_dict = self.model(**batch)
         arry = to_numpy(out_dict["logits"])
-<<<<<<< HEAD
-        out = torch.softmax(arry)
-=======
         out = F.softmax(arry, dim=1)
->>>>>>> a7e0557ce06b37791e15539841adf2f7f27d7589
         return out
-    
+
     def predict(self, data):
         pred_generator = self.iterator(data, num_epochs=1, shuffle=False)
         self.model.eval()
@@ -44,7 +40,7 @@ class Predictor:
                 out = self.model(batch["tokens"], batch["id"])
                 logits.append(out["logits"])
                 ids.append(torch.tensor(out["id"]))
-        
+
         ids = torch.cat(ids, dim=0)
         logits = torch.cat(logits, dim=0)
         output = {"id": ids, "logits": logits}

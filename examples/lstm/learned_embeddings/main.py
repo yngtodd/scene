@@ -6,7 +6,6 @@ from parser import parse_args
 from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
-from scene.ml.models import BaselineModel
 from scene.ml.models import AllenBiLSTM
 
 from allennlp.training.trainer import Trainer

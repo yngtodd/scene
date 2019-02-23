@@ -8,8 +8,7 @@ from scene.data.reader import DataReader
 from scene.data.tokenizers import spacy_word_tokenizer
 
 from scene.ml.predictor import Predictor
-from scene.ml.models import BaselineModel
-from allennlp.modules.seq2vec_encoders import CnnHighwayEncoder
+from scene.ml.models import AllenBiLSTM
 
 from allennlp.training.trainer import Trainer
 from allennlp.data.vocabulary import Vocabulary
@@ -42,21 +41,7 @@ def main():
     )
 
     word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
-
-    encoder = CnnHighwayEncoder(
-        embedding_dim=word_embeddings.get_output_dim(),
-        filters=[(3,100), (4,100), (5,100)],
-        num_highway=2,
-        projection_dim=100,
-        do_layer_norm=True
-    )
-
-    model = BaselineModel(
-        word_embeddings,
-        vocab,
-        encoder,
-        n_classes=9
-    )
+    model = AllenBiLSTM(word_embeddings, vocab, n_classes=9).to(device)
 
     with open("./saves/best.th", 'rb') as f:
         model.load_state_dict(torch.load(f))

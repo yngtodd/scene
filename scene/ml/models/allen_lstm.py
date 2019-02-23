@@ -58,7 +58,7 @@ class AllenBiLSTM(Model):
         linear_layers = nn.ModuleList(linear_layers)
         return linear_layers
     
-    def forward(self, tokens, id, label):
+    def forward(self, tokens, id, labels):
         """AllenNLP models are slightly different from nn.Modules.
 
         Parameters

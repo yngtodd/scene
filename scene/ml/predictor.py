@@ -19,7 +19,7 @@ class Predictor:
     def _extract_data(self, batch) -> np.ndarray:
         out_dict = self.model(**batch)
         arry = to_numpy(out_dict["logits"])
-        out = torch.sigmoid(arry)
+        out = torch.softmax(arry)
         return out
     
     def predict(self, data):

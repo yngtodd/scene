@@ -45,6 +45,8 @@ def main():
         embedding_dim=args.embedding_dim
     )
 
+    word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
+
     encoder = CnnEncoder(
         embedding_dim=word_embeddings.get_output_dim(),
         num_filters=100,

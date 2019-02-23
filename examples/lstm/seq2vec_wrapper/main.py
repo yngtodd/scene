@@ -53,7 +53,7 @@ def main():
             hidden_size=50, 
             batch_first=True,
             dropout=0.3,
-            bidectional=True
+            bidirectional=True
         )
     )
 

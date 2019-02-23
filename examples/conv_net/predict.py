@@ -9,7 +9,7 @@ from scene.data.tokenizers import spacy_word_tokenizer
 
 from scene.ml.predictor import Predictor
 from scene.ml.models import BaselineModel
-from allennlp.modules.seq2vec_encoders import CnnHighwayEncoder
+from allennlp.modules.seq2vec_encoders import CnnEncoder
 
 from allennlp.training.trainer import Trainer
 from allennlp.data.vocabulary import Vocabulary
@@ -43,13 +43,11 @@ def main():
 
     word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
 
-    encoder = CnnHighwayEncoder(
+    encoder = CnnEncoder(
         embedding_dim=word_embeddings.get_output_dim(),
-        filters=[(3,100), (4,100), (5,100)],
-        num_highway=2,
-        projection_dim=100,
-        do_layer_norm=True
-    )
+        num_filters=100,
+        ngram_filter_sizes=(2, 3, 4, 5)
+   )
 
     model = BaselineModel(
         word_embeddings,

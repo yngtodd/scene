@@ -33,7 +33,7 @@ def main():
     testdata = reader.read(args.datapath, 'test')
     iterator = BasicIterator(batch_size=28)
 
-    vocab = Vocabulary.from_files("./experiments/augment_sans_other/final_save/vocabulary")
+    vocab = Vocabulary.from_files("./final_save/vocabulary")
     iterator.index_with(vocab)
 
     token_embedding = Embedding(
@@ -56,7 +56,7 @@ def main():
         n_classes=9
     )
 
-    with open("./experiments/augment_sans_other/saves/best.th", 'rb') as f:
+    with open("./saves/best.th", 'rb') as f:
         model.load_state_dict(torch.load(f))
 
     predictor = Predictor(model, iterator)

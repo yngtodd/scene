@@ -11,7 +11,7 @@ from scene.ml.models import BaselineModel
 from allennlp.training.trainer import Trainer
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.iterators import BucketIterator
-from allennlp.modules.seq2vec_encoders import PytorchSeq2VecWrapper 
+from allennlp.modules.seq2vec_encoders import PytorchSeq2VecWrapper
 
 from allennlp.modules.token_embedders import Embedding
 from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
@@ -49,11 +49,11 @@ def main():
 
     lstm = PytorchSeq2VecWrapper(
         nn.LSTM(
-            input_size=args.embedding_dim, 
-            hidden_size=50, 
+            input_size=args.embedding_dim,
+            hidden_size=25,
             batch_first=True,
-            dropout=0.3,
-            bidirectional=True
+            dropout=0.5,
+            bidirectional=False
         )
     )
 

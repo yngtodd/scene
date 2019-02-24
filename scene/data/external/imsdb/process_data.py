@@ -51,7 +51,8 @@ def sample_from_script(script_path, num_lines, chars_per_line):
     """
     script = read_script(script_path)
     script = split_n_lines(script, num_chars=chars_per_line)
-    lines = np.random.choice(script, num_lines)
+    # sample with replacement since some scripts are sparse.
+    lines = np.random.choice(script, num_lines, replace=True)
     return lines
 
 
@@ -83,3 +84,36 @@ def sample_from_genre(genre_path, num_lines, chars_per_line=1000):
         all_lines.extend(lines)
     
     return all_lines
+
+
+def create_genre_dataframe(genre, genre_path, num_lines, id_lead=9999):
+    """Create a dataframe of randomly sampled script lines from a genre.
+
+    Used to augment our dataset with IMSDB data.
+
+    Parameters
+    ----------
+    genre : str
+        Name of the genre. Must match `genre` field of original data
+        Don't mispell things, *Todd*
+
+    genre_path : str
+        Path to all scripts of a given genre.
+
+    num_lines : int
+        Number of lines to sample from the genre.
+
+    id_lead : int
+        Identifier for IDs.
+        Set to distinguish between augmented samples.
+
+    Returns
+    -------
+    pandas dataframe : DataFrame['id', 'text', 'genre']
+    """
+    text = sample_from_genre(genre_path=genre_path, num_lines=num_lines)
+    labels = [genre for x in range(len(text))]
+    ids = [str(id_lead) + str(x) for x in range(len(text))]
+    ids = [int(x) for x in ids]
+    data = {'id': ids, 'text': text, 'genre': labels}
+    return pd.DataFrame(data)

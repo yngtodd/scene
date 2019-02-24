@@ -72,7 +72,7 @@ def main():
         validation_dataset=valdata,
         validation_iterator=iterator,
         cuda_device=3,
-        patience=15,
+        patience=50,
         num_epochs=args.num_epochs,
     )
 

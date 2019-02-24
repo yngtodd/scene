@@ -1,9 +1,9 @@
 drama
-sci-fi
-romance
-thriller
+action
 comedy
+romance
 adventure
 horror
-action
+sci-fi
+thriller
 other

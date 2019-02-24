@@ -1,0 +1,9 @@
+drama
+sci-fi
+romance
+thriller
+comedy
+adventure
+horror
+action
+other

@@ -52,7 +52,7 @@ def main():
 
     encoder = CnnHighwayEncoder(
         embedding_dim=word_embeddings.get_output_dim(),
-        filters=[(3,100), (4,100), (5,100)],
+        filters=[(2,100), (3,100), (4,100), (5,100)],
         num_highway=2,
         projection_dim=100,
         do_layer_norm=True

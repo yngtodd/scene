@@ -11,7 +11,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Highway ConvNet!')
     parser.add_argument('-d','--datapath', metavar='DIR',
-                        default='/home/ygx/kaggle/scene/data/splits/small_val/csv',
+                        default='/home/ygx/kaggle/scene/data/splits/small_val/full_augment',
                         help='path to dataset')
     parser.add_argument('--savepath', type=str,
                         default='/home/ygx/kaggle/scene/saves',
@@ -27,6 +27,8 @@ def parse_args():
                         default='https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/' \
                                 '2x1024_128_2048cnn_1xhighway/elmo_2x1024_128_2048cnn_1xhighway_weights.hdf5',
                         help='Elmo embedding weights')
+    parser.add_argument('--embedding_dim', type=int, default=300, metavar='E',
+                        help='Word embedding dimension.')
     parser.add_argument('--batch_size', type=int, default=28, metavar='N',
                         help='input batch size for training (default: 16)')
     parser.add_argument('--num_epochs', type=int, default=100, metavar='N',

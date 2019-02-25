@@ -11,7 +11,7 @@ def parse_args():
     """
     parser = argparse.ArgumentParser(description='Highway ConvNet!')
     parser.add_argument('-d','--datapath', metavar='DIR',
-                        default='/home/ygx/kaggle/scene/data/splits/small_val/cleaned',
+                        default='/home/ygx/kaggle/scene/data/splits/small_val/full_augment/',
                         help='path to dataset')
     parser.add_argument('--savepath', type=str,
                         default='/home/ygx/kaggle/scene/saves',

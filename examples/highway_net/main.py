@@ -13,9 +13,8 @@ from allennlp.training.trainer import Trainer
 from allennlp.data.vocabulary import Vocabulary
 from allennlp.data.iterators import BucketIterator
 
-from allennlp.modules.token_embedders import ElmoTokenEmbedder
+from allennlp.modules.token_embedders import Embedding
 from allennlp.modules.text_field_embedders import BasicTextFieldEmbedder
-from allennlp.data.token_indexers.elmo_indexer import ELMoTokenCharactersIndexer
 
 
 def main():
@@ -24,8 +23,6 @@ def main():
     torch.manual_seed(args.seed)
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     device = torch.device("cuda:1" if use_cuda else "cpu")
-
-    token_indexer = ELMoTokenCharactersIndexer()
 
     reader = DataReader(
         tokenizer=spacy_word_tokenizer,
@@ -44,8 +41,12 @@ def main():
     vocab = Vocabulary.from_instances(traindata + valdata + testdata)
     iterator.index_with(vocab)
 
-    elmo_embedder = ElmoTokenEmbedder(args.options_file, args.weight_file)
-    word_embeddings = BasicTextFieldEmbedder({"tokens": elmo_embedder})
+    token_embedding = Embedding(
+        num_embeddings=vocab.get_vocab_size('tokens'),
+        embedding_dim=args.embedding_dim
+    )
+
+    word_embeddings = BasicTextFieldEmbedder({"tokens": token_embedding})
 
     encoder = CnnHighwayEncoder(
         embedding_dim=word_embeddings.get_output_dim(),
@@ -73,12 +74,16 @@ def main():
         validation_dataset=valdata,
         validation_iterator=iterator,
         cuda_device=1,
-        patience=10,
+        patience=40,
         num_epochs=args.num_epochs,
     )
 
     metrics = trainer.train()
-    print(metrics)
+
+    with open("./final_save/model.th", 'wb') as f:
+        torch.save(model.state_dict(), f)
+
+    vocab.save_to_files("./final_save/vocabulary")
 
 
 if __name__=='__main__':
